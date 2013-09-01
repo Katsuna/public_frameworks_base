@@ -5,4 +5,7 @@
   <!-- Vendor warning -->
   <java-symbol type="string" name="system_error_vendorprint" />
 
+   <!-- Package Manager -->
+   <java-symbol type="array" name="config_disabledComponents" />
+
 </resources>
