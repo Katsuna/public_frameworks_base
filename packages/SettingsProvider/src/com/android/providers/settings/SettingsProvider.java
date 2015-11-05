@@ -3156,6 +3156,27 @@ public class SettingsProvider extends ContentProvider {
                                     Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS,
                                     allowPrivate.getValue(), null, true,
                                     SettingsState.SYSTEM_PACKAGE_NAME);
+
+
+                    // Allow openmarket OEMs to set default customized inputmethod
+                    final SettingsState secureSettings = getSecureSettingsLocked(userId);
+                    String defaultComponent
+                            = getContext().getResources().getString(R.string.def_input_method);
+                    if (!TextUtils.isEmpty(defaultComponent)) {
+                        secureSettings.insertSettingLocked(
+                                Settings.Secure.DEFAULT_INPUT_METHOD,
+                                defaultComponent,
+                                SettingsState.SYSTEM_PACKAGE_NAME);
+                    }
+
+                    defaultComponent = getContext().getResources()
+                            .getString(R.string.def_enable_input_methods);
+                    if (!TextUtils.isEmpty(defaultComponent)) {
+                        secureSettings.insertSettingLocked(
+                                Settings.Secure.ENABLED_INPUT_METHODS,
+                                defaultComponent,
+                                SettingsState.SYSTEM_PACKAGE_NAME);
+
                         }
                     }
                     currentVersion = 127;
