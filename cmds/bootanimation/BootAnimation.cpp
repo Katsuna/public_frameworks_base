@@ -352,8 +352,8 @@ bool BootAnimation::android()
 {
     ALOGD("%sAnimationShownTiming start time: %" PRId64 "ms", mShuttingDown ? "Shutdown" : "Boot",
             elapsedRealtime());
-    initTexture(&mAndroid[0], mAssets, "images/android-logo-mask.png");
-    initTexture(&mAndroid[1], mAssets, "images/android-logo-shine.png");
+    initTexture(&mAndroid[0], mAssets, "images/katsuna-logo-mask.png");
+    initTexture(&mAndroid[1], mAssets, "images/katsuna-logo-shine.png");
 
     mCallbacks->init({});
 
