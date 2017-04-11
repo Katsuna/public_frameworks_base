@@ -1854,8 +1854,8 @@ public class ActivityManagerService extends IActivityManager.Stub
                     AlertDialog d = new BaseErrorDialog(mUiContext);
                     d.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ERROR);
                     d.setCancelable(false);
-                    d.setTitle(mUiContext.getText(R.string.android_system_label));
-                    d.setMessage(mContext.getString(R.string.system_error_vendorprint, vendorid));
+                    d.setTitle(mUiContext.getText(R.string.incompatible_vendor_title));
+                    d.setMessage(mContext.getString(R.string.incompatible_vendor_summary, vendorid));
                     d.setButton(DialogInterface.BUTTON_POSITIVE, mUiContext.getText(R.string.ok),
                             obtainMessage(DISMISS_DIALOG_UI_MSG, d));
                     d.show();

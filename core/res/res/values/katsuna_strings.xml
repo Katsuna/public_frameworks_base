@@ -2,7 +2,8 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Vendor mismatched fingerprint warning [CHAR LIMIT=NONE] -->
-    <string name="system_error_vendorprint">Your vendor partition does not match the system. Please flash the <xliff:g id="string">%s</xliff:g> vendor image to your device.</string>
+    <!-- Mismatched/Incompatible vendor image error [CHAR LIMIT=NONE] -->
+    <string name="incompatible_vendor_title">Error</string>
+    <string name="incompatible_vendor_summary">Please flash the correct vendor image (<xliff:g id="string">%s</xliff:g>) to your device.</string>
 
 </resources>
