@@ -3166,6 +3166,8 @@ public class SettingsProvider extends ContentProvider {
                             secureSettings.insertSettingLocked(
                                     Settings.Secure.DEFAULT_INPUT_METHOD,
                                     defaultComponent,
+                                    null,
+                                    false,
                                     SettingsState.SYSTEM_PACKAGE_NAME);
                         }
 
@@ -3175,6 +3177,8 @@ public class SettingsProvider extends ContentProvider {
                             secureSettings.insertSettingLocked(
                                     Settings.Secure.ENABLED_INPUT_METHODS,
                                     defaultComponent,
+                                    null,
+                                    false,
                                     SettingsState.SYSTEM_PACKAGE_NAME);
 
                         }
