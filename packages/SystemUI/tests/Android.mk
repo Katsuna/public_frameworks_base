@@ -16,7 +16,8 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_USE_AAPT2 := true
-LOCAL_MODULE_TAGS := tests
+# replace "optional" with "tests" if you ever want to enable the SystemUITests builds
+LOCAL_MODULE_TAGS := optional
 
 LOCAL_JACK_FLAGS := --multi-dex native
 LOCAL_DX_FLAGS := --multi-dex
