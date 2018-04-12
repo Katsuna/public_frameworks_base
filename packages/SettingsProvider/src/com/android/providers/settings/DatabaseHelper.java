@@ -2455,6 +2455,17 @@ class DatabaseHelper extends SQLiteOpenHelper {
             loadIntegerSetting(stmt, Settings.Secure.SLEEP_TIMEOUT,
                     R.integer.def_sleep_timeout);
 
+            if (!TextUtils.isEmpty(mContext.getResources().getString(R.string.def_input_method))) {
+                loadStringSetting(stmt, Settings.Secure.DEFAULT_INPUT_METHOD,
+                        R.string.def_input_method);
+            }
+
+            if (!TextUtils.isEmpty(mContext.getResources().getString(
+                    R.string.def_enable_input_methods))) {
+                loadStringSetting(stmt, Settings.Secure.ENABLED_INPUT_METHODS,
+                        R.string.def_enable_input_methods);
+            }
+
             /*
              * IMPORTANT: Do not add any more upgrade steps here as the global,
              * secure, and system settings are no longer stored in a database
