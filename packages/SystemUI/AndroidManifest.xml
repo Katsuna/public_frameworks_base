@@ -199,6 +199,8 @@
     <!-- to change themes - light or dark -->
     <uses-permission android:name="android.permission.CHANGE_OVERLAY_PACKAGES" />
 
+    <uses-permission android:name="com.katsuna.services.datastore.permission.preferences" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"

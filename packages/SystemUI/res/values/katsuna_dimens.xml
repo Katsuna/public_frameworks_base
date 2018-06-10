@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Katsuna dimens -->
+    <dimen name="qsettings_vert_padding">12dp</dimen>
+
+    <dimen name="kts_toggle_width">66dp</dimen>
+    <dimen name="kts_more_padding">4dp</dimen>
+    <dimen name="kts_more_width">120dp</dimen>
+
+    <dimen name="common_letter_spacing">0.07</dimen>
+
+    <dimen name="toggle_indicator_width">24dp</dimen>
+    <dimen name="toggle_indicator_height">4dp</dimen>
+    <dimen name="toggle_radius">2dp</dimen>
+    <dimen name="toggle_stroke">1dp</dimen>
+
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="seekbar_progress_height">3dp</dimen>
+    <dimen name="seekbar_thumb_size">32dp</dimen>
+    <dimen name="seekbar_thumb_inset">5dp</dimen>
+
+</resources>

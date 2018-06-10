@@ -21,32 +21,46 @@
     android:id="@+id/header"
     android:layout_width="match_parent"
     android:layout_height="@dimen/status_bar_header_height"
-    android:layout_gravity="@integer/notification_panel_layout_gravity"
-    android:baselineAligned="false"
-    android:clickable="false"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingTop="0dp"
-    android:paddingEnd="0dp"
-    android:paddingStart="0dp">
+    android:layout_marginStart="-8dp"
+    android:layout_marginEnd="-8dp"
+    android:layout_gravity="start|top"
+    android:padding="0dp">
 
-    <include layout="@layout/quick_status_bar_header_system_icons" />
-
-    <com.android.systemui.qs.QuickQSPanel
-        android:id="@+id/quick_qs_panel"
+    <include android:id="@+id/katsuna_quick_panel"
+        layout="@layout/katsuna_qs_mini"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="31dp"
-        android:layout_alignParentTop="true"
-        android:accessibilityTraversalAfter="@+id/date_time_group"
-        android:accessibilityTraversalBefore="@id/expand_indicator"
-        android:clipChildren="false"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentStart="true" />
+
+    <TextClock
+        android:id="@+id/katsuna_date"
+        style="KatsunaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_centerVertical="true"
+        android:minHeight="35dp"
+        android:gravity="start|center"
+        android:fontFamily="sans-serif-medium"
+        android:format12Hour="kk:mm • EEEE, d MMMM"
+        android:format24Hour="kk:mm • EEEE, d MMMM"
+        android:textColor="@color/common_black"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/expand_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
         android:focusable="true"
-        android:importantForAccessibility="yes" />
+        android:contentDescription="@string/accessibility_quick_settings_expand"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_centerVertical="true" />
 
     <com.android.systemui.statusbar.AlphaOptimizedImageView
         android:id="@+id/qs_detail_header_progress"

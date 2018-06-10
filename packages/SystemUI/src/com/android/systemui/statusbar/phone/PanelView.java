@@ -985,7 +985,7 @@ public abstract class PanelView extends FrameLayout {
 
     public void expand(final boolean animate) {
         if (!isFullyCollapsed() && !isCollapsing()) {
-            return;
+            //return;
         }
 
         mInstantExpanding = true;
