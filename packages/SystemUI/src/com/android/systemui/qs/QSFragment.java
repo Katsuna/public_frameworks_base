@@ -57,9 +57,11 @@ import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.statusbar.stack.StackStateAnimator;
 import com.katsuna.commons.entities.ColorProfileKeyV2;
 import com.katsuna.commons.entities.UserProfile;
+import com.katsuna.commons.utils.BackgroundGenerator;
 import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.DrawUtils;
 import com.katsuna.commons.utils.ProfileReader;
+import com.katsuna.commons.utils.ToggleButtonAdjuster;
 
 public class QSFragment extends Fragment implements QS {
     private static final String TAG = "QS";
@@ -552,13 +554,13 @@ public class QSFragment extends Fragment implements QS {
         DrawUtils.setColor(mFlashIcon.getDrawable(), primaryColor2);
         DrawUtils.setColor(mFlightIcon.getDrawable(), primaryColor2);
 
-        Drawable toggleBg = DrawQSUtils.createToggleBg(ctx, userProfile);
-        DrawQSUtils.adjustToggleButton(ctx, mWifiSwitch, toggleBg, userProfile);
-        DrawQSUtils.adjustToggleButton(ctx, mCellularToggle, toggleBg, userProfile);
-        DrawQSUtils.adjustToggleButton(ctx, mBluetoothToggle, toggleBg, userProfile);
-        DrawQSUtils.adjustToggleButton(ctx, mZenToggle, toggleBg, userProfile);
-        DrawQSUtils.adjustToggleButton(ctx, mFlightToggle, toggleBg, userProfile);
-        DrawQSUtils.adjustToggleButton(ctx, mFlashToggle, toggleBg, userProfile);
+        Drawable toggleBg = BackgroundGenerator.createToggleBg(ctx, userProfile);
+        ToggleButtonAdjuster.adjustToggleButton(ctx, mWifiSwitch, toggleBg, userProfile);
+        ToggleButtonAdjuster.adjustToggleButton(ctx, mCellularToggle, toggleBg, userProfile);
+        ToggleButtonAdjuster.adjustToggleButton(ctx, mBluetoothToggle, toggleBg, userProfile);
+        ToggleButtonAdjuster.adjustToggleButton(ctx, mZenToggle, toggleBg, userProfile);
+        ToggleButtonAdjuster.adjustToggleButton(ctx, mFlightToggle, toggleBg, userProfile);
+        ToggleButtonAdjuster.adjustToggleButton(ctx, mFlashToggle, toggleBg, userProfile);
     }
 
     public QSPanel getQsPanel() {
