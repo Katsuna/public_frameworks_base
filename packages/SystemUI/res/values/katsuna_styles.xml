@@ -21,6 +21,10 @@
         <item name="android:lines">1</item>
     </style>
 
+    <style name="KatsunaText.Basic.Label.LeftHanded">
+        <item name="android:gravity">end|center</item>
+    </style>
+
     <style name="KatsunaText.Toggle">
         <item name="android:textAllCaps">false</item>
     </style>
@@ -56,6 +60,11 @@
         <item name="android:layout_alignParentEnd">true</item>
     </style>
 
+    <style name="KatsunaText.Toggle.Expanded.LeftHanded">
+        <item name="android:layout_alignParentEnd">false</item>
+        <item name="android:layout_alignParentStart">true</item>
+    </style>
+
     <style name="KatsunaText.More">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -73,6 +82,10 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/common_black38</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="KatsunaText.More.LeftHanded">
+        <item name="android:layout_marginStart">10dp</item>
     </style>
 
 </resources>

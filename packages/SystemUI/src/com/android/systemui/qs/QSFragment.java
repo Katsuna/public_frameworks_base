@@ -36,6 +36,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -88,6 +89,7 @@ public class QSFragment extends Fragment implements QS {
     private QSContainerImpl mContainer;
     private int mLayoutDirection;
     private QSFooter mFooter;
+    private LinearLayout mKatsunaSettingsContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -126,6 +128,7 @@ public class QSFragment extends Fragment implements QS {
 
 
         mSettingsController = new SettingsController(getContext());
+        mKatsunaSettingsContainer = mKatsunaQSPanel.findViewById(R.id.katsuna_qs_container);
         setupKatsunaControls();
     }
 
@@ -534,11 +537,34 @@ public class QSFragment extends Fragment implements QS {
         }
     }
 
+    UserProfile mCurrentUserProfile;
+
     private void adjustProfiles() {
         Context ctx = getContext();
 
         UserProfile userProfile = ProfileReader.getUserProfileFromKatsunaServices(ctx);
         if (userProfile == null) return;
+
+        // check if current profile is the same
+        if (userProfile.equals(mCurrentUserProfile)) return;
+
+        // check if hand setting needs adjustment
+        if (mCurrentUserProfile == null
+                || mCurrentUserProfile.isRightHanded != userProfile.isRightHanded) {
+            // check for changed profile
+            if (mKatsunaSettingsContainer != null) {
+                mKatsunaSettingsContainer.removeAllViews();
+                View mKatsunaSettingsView = LayoutInflater.from(getContext()).inflate(
+                        userProfile.isRightHanded ? R.layout.katsuna_quick_settings_rh :
+                                R.layout.katsuna_quick_settings_lh,
+                        mKatsunaSettingsContainer, false);
+                mKatsunaSettingsContainer.addView(mKatsunaSettingsView);
+                setupKatsunaControls();
+                readKatsunaControls();
+            }
+        }
+
+        mCurrentUserProfile = userProfile;
 
         DrawQSUtils.adjustSeekbar(ctx, mBrigthnessSeekBar, userProfile,
                 R.drawable.ic_brightness_7_black_24dp);
