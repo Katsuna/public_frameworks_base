@@ -278,6 +278,18 @@ public class QuickStatusBarHeader extends RelativeLayout {
             return;
         }
 
+        if (mUserProfile.isRightHanded) {
+            alignParentStart(mKatsunaQuickPanel);
+            setMarginEnd(mKatsunaQuickPanel, R.dimen.katsuna_qs_mini_margin);
+            alignParentStart(mKatsunaDate);
+            alignParentEnd(mExpandIndicator);
+        } else {
+            alignParentEnd(mKatsunaQuickPanel);
+            setMarginStart(mKatsunaQuickPanel, R.dimen.katsuna_qs_mini_margin);
+            alignParentEnd(mKatsunaDate);
+            alignParentStart(mExpandIndicator);
+        }
+
         Drawable toggleBg = DrawQSUtils.createMinifiedToggleBg(context, mUserProfile);
 
         DrawQSUtils.adjustMinifiedToggleButton(context, mWifiToggle, R.drawable.ic_wifi_black_28dp,
@@ -289,6 +301,36 @@ public class QuickStatusBarHeader extends RelativeLayout {
 
         mExpandDrawable = DrawQSUtils.createExpandDrawable(context, mUserProfile, true);
         mCollapseDrawable = DrawQSUtils.createExpandDrawable(context, mUserProfile, false);
+    }
+
+    private void setMarginStart(View view, int dimenId) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        int margin = getContext().getResources().getDimensionPixelSize(dimenId);
+        params.setMarginStart(margin);
+        params.setMarginEnd(0);
+        view.setLayoutParams(params);
+    }
+
+    private void setMarginEnd(View view, int dimenId) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        int margin = getContext().getResources().getDimensionPixelSize(dimenId);
+        params.setMarginStart(0);
+        params.setMarginEnd(margin);
+        view.setLayoutParams(params);
+    }
+
+    private void alignParentStart(View view) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        params.removeRule(RelativeLayout.ALIGN_PARENT_END);
+        params.addRule(RelativeLayout.ALIGN_PARENT_START);
+        view.setLayoutParams(params);
+    }
+
+    private void alignParentEnd(View view) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+        params.removeRule(RelativeLayout.ALIGN_PARENT_START);
+        params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        view.setLayoutParams(params);
     }
 
     private Drawable mExpandDrawable;

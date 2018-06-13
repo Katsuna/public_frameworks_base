@@ -5,7 +5,7 @@
     android:background="@drawable/katsuna_toggles_wrapper_bg"
     android:orientation="horizontal"
     android:paddingBottom="6dp"
-    android:paddingEnd="48dp"
+    android:paddingEnd="6dp"
     android:paddingStart="6dp"
     android:paddingTop="6dp">
 
