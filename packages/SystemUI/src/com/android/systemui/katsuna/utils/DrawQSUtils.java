@@ -21,49 +21,6 @@ import com.katsuna.commons.utils.ToggleButtonAdjuster;
 public class DrawQSUtils {
 
 
-    public static void adjustSeekbar(Context context, SeekBar seekBar, UserProfile profile,
-                                     int thumbResId) {
-
-        int color = ColorCalcV2.getColor(context, ColorProfileKeyV2.PRIMARY_COLOR_2,
-                profile.colorProfile);
-
-        LayerDrawable layerDrawable = (LayerDrawable) seekBar.getProgressDrawable();
-
-        if (layerDrawable != null) {
-            Drawable progressDrawable = layerDrawable.findDrawableByLayerId(android.R.id.progress);
-
-            DrawUtils.setColor(progressDrawable, color);
-        }
-
-        // get thumb drawable
-        Drawable thumbIcon = context.getDrawable(thumbResId);
-        DrawUtils.setColor(thumbIcon, color);
-
-        // get progress drawable
-        int white = ContextCompat.getColor(context, R.color.common_white);
-        int black12 = ContextCompat.getColor(context, R.color.common_black12);
-
-        int size = context.getResources().getDimensionPixelSize(R.dimen.seekbar_thumb_size);
-        int inset = context.getResources().getDimensionPixelSize(R.dimen.seekbar_thumb_inset);
-        Drawable thumbBg = getThumbCircle(white, black12, size);
-
-        // create and set layered progress drawable
-        Drawable[] drawables = {thumbBg, thumbIcon};
-        LayerDrawable thumbDrawable = new LayerDrawable(drawables);
-        thumbDrawable.setLayerInset(1, inset, inset, inset, inset);
-
-        seekBar.setThumb(thumbDrawable);
-    }
-
-    private static Drawable getThumbCircle(int color, int stroke, int size) {
-        GradientDrawable shape = new GradientDrawable();
-        shape.setShape(GradientDrawable.OVAL);
-        shape.setSize(size, size);
-        shape.setColor(color);
-        shape.setStroke(2, stroke);
-        return shape;
-    }
-
     public static Drawable createMinifiedToggleBg(Context context, UserProfile profile) {
         StateListDrawable out = new StateListDrawable();
 

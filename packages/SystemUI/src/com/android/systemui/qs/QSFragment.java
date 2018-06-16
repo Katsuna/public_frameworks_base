@@ -46,7 +46,6 @@ import com.android.systemui.Interpolators;
 import com.android.systemui.Prefs;
 import com.android.systemui.R;
 import com.android.systemui.R.id;
-import com.android.systemui.katsuna.utils.DrawQSUtils;
 import com.android.systemui.katsuna.utils.SettingsController;
 import com.android.systemui.katsuna.utils.SoundBroadcastReceiver;
 import com.android.systemui.plugins.ActivityStarter;
@@ -62,6 +61,7 @@ import com.katsuna.commons.utils.BackgroundGenerator;
 import com.katsuna.commons.utils.ColorCalcV2;
 import com.katsuna.commons.utils.DrawUtils;
 import com.katsuna.commons.utils.ProfileReader;
+import com.katsuna.commons.utils.SeekBarUtils;
 import com.katsuna.commons.utils.ToggleButtonAdjuster;
 
 public class QSFragment extends Fragment implements QS {
@@ -566,9 +566,9 @@ public class QSFragment extends Fragment implements QS {
 
         mCurrentUserProfile = userProfile;
 
-        DrawQSUtils.adjustSeekbar(ctx, mBrigthnessSeekBar, userProfile,
+        SeekBarUtils.adjustSeekbar(ctx, mBrigthnessSeekBar, userProfile,
                 R.drawable.ic_brightness_7_black_24dp);
-        DrawQSUtils.adjustSeekbar(ctx, mVolumeSeekBar, userProfile,
+        SeekBarUtils.adjustSeekbar(ctx, mVolumeSeekBar, userProfile,
                 R.drawable.ic_volume_up_black_24dp);
 
         int primaryColor2 = ColorCalcV2.getColor(ctx, ColorProfileKeyV2.PRIMARY_COLOR_2,
