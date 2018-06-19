@@ -70,7 +70,9 @@ public class QuickStatusBarHeader extends RelativeLayout {
     private boolean mBluetoothToggleInProgress;
     private ImageView mExpandIndicator;
     private TextClock mKatsunaDate;
-
+    private View mKatsunaDateContainer;
+    private BatteryMeterView mBattery;
+    private View mBatteryContainer;
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -111,6 +113,12 @@ public class QuickStatusBarHeader extends RelativeLayout {
             }
         });
         mKatsunaDate = findViewById(R.id.katsuna_date);
+        mKatsunaDateContainer = findViewById(R.id.katsuna_date_container);
+        mBatteryContainer = findViewById(R.id.battery_container);
+        mBattery = findViewById(R.id.kts_battery);
+        if (mBattery != null) {
+            mBattery.setForceShowPercent(true);
+        }
     }
 
     private void applyDarkness(int id, Rect tintArea, float intensity, int color) {
@@ -255,10 +263,10 @@ public class QuickStatusBarHeader extends RelativeLayout {
 
         if (expanded) {
             mKatsunaQuickPanel.setVisibility(View.GONE);
-            mKatsunaDate.setVisibility(View.VISIBLE);
+            mKatsunaDateContainer.setVisibility(View.VISIBLE);
         } else {
             mKatsunaQuickPanel.setVisibility(View.VISIBLE);
-            mKatsunaDate.setVisibility(View.GONE);
+            mKatsunaDateContainer.setVisibility(View.GONE);
         }
 
         adjustProfile();
@@ -271,22 +279,29 @@ public class QuickStatusBarHeader extends RelativeLayout {
     private void adjustProfile() {
         //Log.e(TAG, "adjustProfile");
         Context context = getContext();
-        mUserProfile = ProfileReader.getUserProfileFromKatsunaServices(context);
+        UserProfile userProfile = ProfileReader.getUserProfileFromKatsunaServices(context);
 
-        if (mUserProfile == null)  {
+        if (userProfile == null)  {
             Log.w(TAG, "profile not found");
             return;
         }
+
+        if (userProfile.equals(mUserProfile)) return;
+
+        mUserProfile = userProfile;
+
 
         if (mUserProfile.isRightHanded) {
             alignParentStart(mKatsunaQuickPanel);
             setMarginEnd(mKatsunaQuickPanel, R.dimen.katsuna_qs_mini_margin);
             alignParentStart(mKatsunaDate);
+            alignParentStart(mBatteryContainer);
             alignParentEnd(mExpandIndicator);
         } else {
             alignParentEnd(mKatsunaQuickPanel);
             setMarginStart(mKatsunaQuickPanel, R.dimen.katsuna_qs_mini_margin);
             alignParentEnd(mKatsunaDate);
+            alignParentEnd(mBatteryContainer);
             alignParentStart(mExpandIndicator);
         }
 
@@ -347,6 +362,7 @@ public class QuickStatusBarHeader extends RelativeLayout {
         if (headerExpansionFraction == 0 && mWifiToggle.isShown()) {
             //Log.e(TAG, "setExpansion adjust profile needed");
             adjustProfile();
+            readSettings();
         }
 
         boolean expanded = headerExpansionFraction > EXPAND_INDICATOR_THRESHOLD;
