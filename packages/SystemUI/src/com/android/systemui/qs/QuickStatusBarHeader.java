@@ -25,6 +25,7 @@ import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
@@ -131,104 +132,152 @@ public class QuickStatusBarHeader extends RelativeLayout {
     private void setupControls() {
         // setup wifi
         mWifiToggle = findViewById(R.id.wifi_minified_toggle);
-        mWifiToggle.setOnClickListener(v -> {
+        mWifiToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mWifiToggleInProgress || mIsReadingSettings) return;
 
-            if (mWifiToggleInProgress) return;
+                new AsyncTask<Void, Void, Void>() {
 
-            new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        mWifiToggleInProgress = true;
+                    }
 
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    mWifiToggleInProgress = true;
-                }
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        mSettingsController.setWifiEnabled(isChecked);
+                        // wait 100 ms for the change to be applied.
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
 
-                @Override
-                protected Void doInBackground(Void... params) {
-                    mSettingsController.setWifiEnabled(mWifiToggle.isChecked());
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    mWifiToggleInProgress = false;
-                }
-            }.execute();
-
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        mWifiToggleInProgress = false;
+                    }
+                }.execute();
+            }
         });
 
         // setup data
         mCellularToggle = findViewById(R.id.cellular_minified_toggle);
-        mCellularToggle.setOnClickListener(v -> {
+        mCellularToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mCellularToggleInProgress || mIsReadingSettings) return;
 
-            if (mCellularToggleInProgress) return;
+                new AsyncTask<Void, Void, Void>() {
 
-            new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        mCellularToggleInProgress = true;
+                    }
 
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    mCellularToggleInProgress = true;
-                }
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        mSettingsController.setDataEnabled(
+                                SettingsController.SINGLE_SIM_DEFAULT_SUB_ID, isChecked);
+                        // wait 100 ms for the change to be applied.
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
 
-                @Override
-                protected Void doInBackground(Void... params) {
-                    mSettingsController.setDataEnabled(SettingsController.SINGLE_SIM_DEFAULT_SUB_ID,
-                            mCellularToggle.isChecked());
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    mCellularToggleInProgress = false;
-                }
-            }.execute();
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        mCellularToggleInProgress = false;
+                    }
+                }.execute();
+            }
         });
 
         // setup bluetooth
         mBluetoothToggle = findViewById(R.id.bluetooth_minified_toggle);
-        mBluetoothToggle.setOnClickListener(v -> {
+        mBluetoothToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mBluetoothToggleInProgress || mIsReadingSettings) return;
 
-            if (mBluetoothToggleInProgress) return;
+                new AsyncTask<Void, Void, Void>() {
 
-            new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    mBluetoothToggleInProgress = true;
-                }
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    BluetoothController bluetoothController = Dependency.get(BluetoothController.class);
-                    if (bluetoothController != null) {
-                        bluetoothController.setBluetoothEnabled(mBluetoothToggle.isChecked());
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        mBluetoothToggleInProgress = true;
                     }
-                    return null;
-                }
 
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    mBluetoothToggleInProgress = false;
-                }
-            }.execute();
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        BluetoothController bluetoothController =
+                                Dependency.get(BluetoothController.class);
+                        if (bluetoothController != null) {
+                            bluetoothController.setBluetoothEnabled(isChecked);
+                        }
+                        // wait 100 ms for the change to be applied.
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
 
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        mBluetoothToggleInProgress = false;
+                    }
+                }.execute();
+            }
         });
     }
 
+    private boolean mIsReadingSettings = false;
+
     private void readSettings() {
-        mWifiToggle.setChecked(mSettingsController.isWifiEnabled());
-        mCellularToggle.setChecked(mSettingsController.isDataEnabled(
-                SettingsController.SINGLE_SIM_DEFAULT_SUB_ID));
-        //read bluetooth
-        BluetoothController bluetoothController = Dependency.get(BluetoothController.class);
-        if (bluetoothController != null) {
-            mBluetoothToggle.setChecked(bluetoothController.isBluetoothEnabled());
+        mIsReadingSettings  = true;
+
+        if (!mWifiToggleInProgress) {
+            boolean wifiEnabled = mSettingsController.isWifiEnabled();
+            if (wifiEnabled ^ mWifiToggle.isChecked()) {
+                mWifiToggle.setChecked(wifiEnabled);
+            }
         }
+
+        if (!mCellularToggleInProgress) {
+            boolean cellularDataEnabled = mSettingsController.isDataEnabled(
+                    SettingsController.SINGLE_SIM_DEFAULT_SUB_ID);
+            if (cellularDataEnabled ^ mCellularToggle.isChecked()) {
+                mCellularToggle.setChecked(cellularDataEnabled);
+            }
+        }
+
+        //read bluetooth
+        if (!mBluetoothToggleInProgress) {
+            BluetoothController bluetoothController = Dependency.get(BluetoothController.class);
+            if (bluetoothController != null) {
+                boolean mBluetoothEnabled = bluetoothController.isBluetoothEnabled();
+                if (mBluetoothEnabled ^ mBluetoothToggle.isChecked()) {
+                    mBluetoothToggle.setChecked(mBluetoothEnabled);
+                }
+            }
+        }
+
+
+
+        mIsReadingSettings = false;
     }
 
 
@@ -360,7 +409,7 @@ public class QuickStatusBarHeader extends RelativeLayout {
 
         // refresh profile
         if (headerExpansionFraction == 0 && mWifiToggle.isShown()) {
-            //Log.e(TAG, "setExpansion adjust profile needed");
+            Log.e(TAG, "setExpansion adjust profile needed");
             adjustProfile();
             readSettings();
         }
