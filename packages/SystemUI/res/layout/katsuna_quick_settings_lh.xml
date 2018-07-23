@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="@string/brightness_dark" />
+                android:text="@string/common_brightness_dark" />
 
             <TextView
                 android:id="@+id/brightness_label_light"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="@string/brightness_light" />
+                android:text="@string/common_brightness_light" />
 
             <SeekBar
                 android:id="@+id/brightness_seek_bar"
@@ -63,7 +63,7 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/volume_silent"
+                android:id="@+id/common_volume_silent"
                 style="@style/KatsunaText.Basic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:text="@string/common_volume_silent" />
 
             <TextView
-                android:id="@+id/volume_loud"
+                android:id="@+id/common_volume_loud"
                 style="@style/KatsunaText.Basic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,8 +85,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/volume_silent"
-                android:layout_toStartOf="@id/volume_loud"
+                android:layout_toEndOf="@id/common_volume_silent"
+                android:layout_toStartOf="@id/common_volume_loud"
                 android:paddingBottom="@dimen/qsettings_vert_padding"
                 android:paddingTop="@dimen/qsettings_vert_padding" />
 

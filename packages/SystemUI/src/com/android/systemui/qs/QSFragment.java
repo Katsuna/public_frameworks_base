@@ -258,7 +258,7 @@ public class QSFragment extends Fragment implements QS {
             }
         });
 
-        mVolumeLow = mKatsunaQSPanel.findViewById(R.id.volume_silent);
+        mVolumeLow = mKatsunaQSPanel.findViewById(R.id.common_volume_silent);
         mVolumeLow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -269,7 +269,7 @@ public class QSFragment extends Fragment implements QS {
             }
         });
 
-        mVolumeMax = mKatsunaQSPanel.findViewById(R.id.volume_loud);
+        mVolumeMax = mKatsunaQSPanel.findViewById(R.id.common_volume_loud);
         mVolumeMax.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
