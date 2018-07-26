@@ -58,19 +58,22 @@ public class SettingsController implements ISettingsController {
         Settings.System.putInt(mContentResolver, Settings.System.SCREEN_BRIGHTNESS, value);
     }
 
+    private final static int VOLUME_FACTOR = 10;
+
     @Override
     public int getVolume() {
-        return mAudioManager.getStreamVolume(AudioManager.STREAM_RING);
+        return mAudioManager.getStreamVolume(AudioManager.STREAM_RING) * VOLUME_FACTOR;
     }
 
     @Override
     public void setVolume(int value) {
-        mAudioManager.setStreamVolume(AudioManager.STREAM_RING, value, 0);
+        int index = Math.round(value / VOLUME_FACTOR);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_RING, index, 0);
     }
 
     @Override
     public int getMaxVolume() {
-        return mAudioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+        return mAudioManager.getStreamMaxVolume(AudioManager.STREAM_RING) * VOLUME_FACTOR;
     }
 
     @Override

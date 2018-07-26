@@ -409,7 +409,7 @@ public class QuickStatusBarHeader extends RelativeLayout {
 
         // refresh profile
         if (headerExpansionFraction == 0 && mWifiToggle.isShown()) {
-            Log.e(TAG, "setExpansion adjust profile needed");
+            //Log.e(TAG, "setExpansion adjust profile needed");
             adjustProfile();
             readSettings();
         }

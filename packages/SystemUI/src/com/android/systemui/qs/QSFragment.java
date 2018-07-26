@@ -23,6 +23,7 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -38,7 +39,6 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.android.systemui.Dependency;
@@ -235,6 +235,21 @@ public class QSFragment extends Fragment implements QS {
 
     }
 
+    private boolean mVolumeUnderChange = false;
+
+    private void disableVolumeListeners() {
+        mVolumeUnderChange = true;
+    }
+
+    private void enableVolumeListeners() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mVolumeUnderChange = false;
+            }
+        }, 100);
+    }
+
     private void setupVolumeControl() {
         mVolumeSeekBar = mKatsunaQSPanel.findViewById(R.id.volume_seek_bar);
         mVolumeSeekBar.setMax(mSettingsController.getMaxVolume());
@@ -248,13 +263,14 @@ public class QSFragment extends Fragment implements QS {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                disableVolumeListeners();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mSettingsController.setVolume(progress);
                 mZenToggle.setChecked(false);
+                enableVolumeListeners();
             }
         });
 
@@ -262,10 +278,12 @@ public class QSFragment extends Fragment implements QS {
         mVolumeLow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                int newProgress = mVolumeSeekBar.getProgress() - 1;
+                disableVolumeListeners();
+                int newProgress = mVolumeSeekBar.getProgress() - 7;
                 mVolumeSeekBar.setProgress(newProgress, true);
                 mSettingsController.setVolume(newProgress);
                 mZenToggle.setChecked(false);
+                enableVolumeListeners();
             }
         });
 
@@ -273,10 +291,12 @@ public class QSFragment extends Fragment implements QS {
         mVolumeMax.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                int newProgress = mVolumeSeekBar.getProgress() + 1;
+                disableVolumeListeners();
+                int newProgress = mVolumeSeekBar.getProgress() + 7;
                 mVolumeSeekBar.setProgress(newProgress, true);
                 mSettingsController.setVolume(newProgress);
                 mZenToggle.setChecked(false);
+                enableVolumeListeners();
             }
         });
     }
@@ -463,6 +483,7 @@ public class QSFragment extends Fragment implements QS {
     }
 
     private void readVolume() {
+        if (mVolumeUnderChange) return;
         mVolumeSeekBar.setProgress(mSettingsController.getVolume());
     }
 
