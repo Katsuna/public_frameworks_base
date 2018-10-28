@@ -10,4 +10,6 @@
    <java-symbol type="array" name="config_disabledComponents" />
    <java-symbol type="array" name="config_forceEnabledComponents" />
 
+   <!-- Vendor platform signatures -->
+   <java-symbol type="array" name="config_vendorPlatformSignatures" />
 </resources>
