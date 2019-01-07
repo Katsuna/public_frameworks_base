@@ -354,14 +354,19 @@ public class QuickStatusBarHeader extends RelativeLayout {
             alignParentStart(mExpandIndicator);
         }
 
-        Drawable toggleBg = DrawQSUtils.createMinifiedToggleBg(context, mUserProfile);
+        Drawable leftToggleBg = DrawQSUtils.createMinifiedToggleBg(context, mUserProfile, true,
+            false);
+        Drawable centertoggleBg = DrawQSUtils.createMinifiedToggleBg(context, mUserProfile, false,
+            false);
+        Drawable righttoggleBg = DrawQSUtils.createMinifiedToggleBg(context, mUserProfile, false,
+            true);
 
-        DrawQSUtils.adjustMinifiedToggleButton(context, mWifiToggle, R.drawable.ic_wifi_black_28dp,
-                toggleBg, mUserProfile);
+        DrawQSUtils.adjustMinifiedToggleButton(context, mWifiToggle,
+            R.drawable.ic_wifi_white_28dp, leftToggleBg, mUserProfile);
         DrawQSUtils.adjustMinifiedToggleButton(context, mCellularToggle,
-                R.drawable.ic_signal_cellular_4_bar_28dp, toggleBg, mUserProfile);
-        DrawQSUtils.adjustMinifiedToggleButton(context, mBluetoothToggle, R.drawable.ic_bluetooth_28dp,
-                toggleBg, mUserProfile);
+            R.drawable.ic_signal_cellular_4_bar_white_28dp, centertoggleBg, mUserProfile);
+        DrawQSUtils.adjustMinifiedToggleButton(context, mBluetoothToggle,
+            R.drawable.ic_bluetooth_white_28dp, righttoggleBg, mUserProfile);
 
         mExpandDrawable = DrawQSUtils.createExpandDrawable(context, mUserProfile, true);
         mCollapseDrawable = DrawQSUtils.createExpandDrawable(context, mUserProfile, false);

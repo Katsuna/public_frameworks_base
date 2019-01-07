@@ -18,7 +18,7 @@
     android:id="@+id/quick_settings_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/common_grey50"
+    android:background="@drawable/katsuna_qs_wrapper_bg"
     android:elevation="4dp"
     android:clipToPadding="false"
     android:clipChildren="false">

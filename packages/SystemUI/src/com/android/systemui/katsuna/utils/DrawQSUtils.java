@@ -1,6 +1,7 @@
 package com.android.systemui.katsuna.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -21,7 +22,8 @@ import com.katsuna.commons.utils.ToggleButtonAdjuster;
 public class DrawQSUtils {
 
 
-    public static Drawable createMinifiedToggleBg(Context context, UserProfile profile) {
+    public static Drawable createMinifiedToggleBg(Context context, UserProfile profile,
+                                                  boolean leftCorners, boolean rightCorners) {
         StateListDrawable out = new StateListDrawable();
 
         int bgColor;
@@ -35,21 +37,47 @@ public class DrawQSUtils {
             lineColor = ColorCalcV2.getColor(context, ColorProfileKeyV2.PRIMARY_COLOR_2,
                     profile.colorProfile);
         }
-        Drawable onDrawable = getMinifiedToggleBackground(context, bgColor, lineColor);
+        Drawable onDrawable = getMinifiedToggleBackground(context, bgColor, lineColor, leftCorners,
+            rightCorners);
 
         bgColor = ContextCompat.getColor(context, R.color.common_white);
         lineColor = ContextCompat.getColor(context, R.color.common_grey300);
-        Drawable offDrawable = getMinifiedToggleBackground(context, bgColor, lineColor);
+        Drawable offDrawable = getMinifiedToggleBackground(context, bgColor, lineColor, leftCorners,
+            rightCorners);
 
         out.addState(new int[]{android.R.attr.state_checked}, onDrawable);
         out.addState(new int[]{-android.R.attr.state_checked}, offDrawable);
         return out;
     }
 
-    private static Drawable getMinifiedToggleBackground(Context context, int bgColor, int lineColor) {
+    private static Drawable getMinifiedToggleBackground(Context context, int bgColor, int lineColor,
+                                                        boolean leftCorners, boolean rightCorners) {
+        Resources res = context.getResources();
+
         // create bg drawable
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.RECTANGLE);
+        int cornerRadius = res.getDimensionPixelSize(R.dimen.common_8dp);
+        int leftCornerRadius = 0;
+        int rightCornerRadius = 0;
+        if (leftCorners) {
+            leftCornerRadius = cornerRadius;
+        }
+        if (rightCorners) {
+            rightCornerRadius = cornerRadius;
+        }
+
+        float[] corners = new float[] {leftCornerRadius, leftCornerRadius,
+            rightCornerRadius, rightCornerRadius,
+            rightCornerRadius, rightCornerRadius,
+            leftCornerRadius, leftCornerRadius};
+
+        bg.setCornerRadii(corners);
+
+        int strokeWidth = res.getDimensionPixelSize(R.dimen.common_1dp);
+        int strokeColor = res.getColor(R.color.common_grey100);
+        bg.setStroke(strokeWidth, strokeColor);
+
 
         // set bg
         bg.setColor(bgColor);
@@ -60,14 +88,14 @@ public class DrawQSUtils {
         line.setColor(lineColor);
 
         // set size
-        int width = context.getResources().getDimensionPixelSize(R.dimen.common_toggle_indicator_width);
-        int height = context.getResources().getDimensionPixelSize(R.dimen.common_toggle_indicator_height);
+        int width = res.getDimensionPixelSize(R.dimen.common_toggle_indicator_width);
+        int height = res.getDimensionPixelSize(R.dimen.common_toggle_indicator_height);
         line.setSize(width, height);
 
         LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{bg, line});
         layerDrawable.setLayerGravity(1, Gravity.CENTER | Gravity.BOTTOM);
 
-        int bottomPadding = context.getResources().getDimensionPixelSize(R.dimen.common_4dp);
+        int bottomPadding = res.getDimensionPixelSize(R.dimen.common_8dp);
         layerDrawable.setLayerInsetBottom(1, bottomPadding);
 
         return layerDrawable;

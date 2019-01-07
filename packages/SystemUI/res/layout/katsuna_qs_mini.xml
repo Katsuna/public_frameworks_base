@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/katsuna_toggles_wrapper_bg"
     android:orientation="horizontal"
     android:paddingBottom="6dp"
     android:paddingEnd="6dp"
@@ -18,7 +17,8 @@
     <ToggleButton
         android:id="@+id/cellular_minified_toggle"
         style="@style/KatsunaText.Toggle.Minified"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="-2dp"
+        android:layout_marginEnd="-2dp"
         android:textOff="@string/kts_data"
         android:textOn="@string/kts_data" />
 
