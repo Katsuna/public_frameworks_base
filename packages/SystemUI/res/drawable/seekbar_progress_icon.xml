@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:height="4dp" />
+    <solid android:color="@color/common_blueA400" />
+    <corners android:radius="@dimen/common_seekbar_radius_v3" />
+</shape>

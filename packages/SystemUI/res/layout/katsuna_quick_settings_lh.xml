@@ -48,8 +48,12 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/brightness_label_dark"
                 android:layout_toStartOf="@id/brightness_label_light"
+                android:background="@null"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="@dimen/qsettings_vert_padding"
-                android:paddingTop="@dimen/qsettings_vert_padding" />
+                android:paddingTop="@dimen/qsettings_vert_padding"
+                android:splitTrack="false" />
 
         </RelativeLayout>
 
@@ -87,8 +91,12 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/common_volume_silent"
                 android:layout_toStartOf="@id/common_volume_loud"
+                android:background="@null"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="@dimen/qsettings_vert_padding"
-                android:paddingTop="@dimen/qsettings_vert_padding" />
+                android:paddingTop="@dimen/qsettings_vert_padding"
+                android:splitTrack="false" />
 
         </RelativeLayout>
 

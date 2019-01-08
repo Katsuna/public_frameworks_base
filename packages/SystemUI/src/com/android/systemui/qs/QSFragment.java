@@ -587,10 +587,10 @@ public class QSFragment extends Fragment implements QS {
 
         mCurrentUserProfile = userProfile;
 
-        SeekBarUtils.adjustSeekbar(ctx, mBrigthnessSeekBar, userProfile,
-                R.drawable.ic_brightness_7_black_24dp);
-        SeekBarUtils.adjustSeekbar(ctx, mVolumeSeekBar, userProfile,
-                R.drawable.ic_volume_up_black_24dp);
+        SeekBarUtils.adjustSeekbarV3(ctx, mBrigthnessSeekBar, userProfile,
+            R.drawable.ic_brightness_7_black_24dp, R.drawable.seekbar_progress);
+        SeekBarUtils.adjustSeekbarV3(ctx, mVolumeSeekBar, userProfile,
+            R.drawable.ic_volume_up_black_24dp, R.drawable.seekbar_progress);
 
         int primaryColor2 = ColorCalcV2.getColor(ctx, ColorProfileKeyV2.PRIMARY_COLOR_2,
                 userProfile.colorProfile);
@@ -601,7 +601,7 @@ public class QSFragment extends Fragment implements QS {
         DrawUtils.setColor(mFlashIcon.getDrawable(), primaryColor2);
         DrawUtils.setColor(mFlightIcon.getDrawable(), primaryColor2);
 
-        Drawable toggleBg = BackgroundGenerator.createToggleBg(ctx, userProfile);
+        Drawable toggleBg = BackgroundGenerator.createToggleBgV3(ctx, userProfile, true);
         ToggleButtonAdjuster.adjustToggleButton(ctx, mWifiSwitch, toggleBg, userProfile);
         ToggleButtonAdjuster.adjustToggleButton(ctx, mCellularToggle, toggleBg, userProfile);
         ToggleButtonAdjuster.adjustToggleButton(ctx, mBluetoothToggle, toggleBg, userProfile);
