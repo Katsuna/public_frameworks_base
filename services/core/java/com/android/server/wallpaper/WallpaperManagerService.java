@@ -2011,10 +2011,10 @@ public class WallpaperManagerService extends IWallpaperManager.Stub {
                     PackageManager.GET_META_DATA | PackageManager.GET_PERMISSIONS, serviceUserId);
             if (si == null) {
                 // The wallpaper component we're trying to use doesn't exist
-                Slog.w(TAG, "Attempted wallpaper " + componentName + " is unavailable");
-                return false;
-            }
-            if (!android.Manifest.permission.BIND_WALLPAPER.equals(si.permission)) {
+                // Fall back to static image wallpaper (fixes black wallpaper bug on pixels)
+                componentName = mImageWallpaper;
+                Slog.w(TAG, "Attempted wallpaper " + componentName + " is unavailable, using image wallpaper");
+            } else if (!android.Manifest.permission.BIND_WALLPAPER.equals(si.permission)) {
                 String msg = "Selected service does not require "
                         + android.Manifest.permission.BIND_WALLPAPER
                         + ": " + componentName;
