@@ -42,7 +42,7 @@ public class DozeConfigurationTest extends SysuiTestCase {
     }
 
     @Test
-    public void alwaysOn_onByDefault() throws Exception {
+    public void alwaysOn_offByDefault() throws Exception {
         if (!mDozeConfig.alwaysOnAvailable()) {
             return;
         }
@@ -50,6 +50,6 @@ public class DozeConfigurationTest extends SysuiTestCase {
         Settings.Secure.putString(mContext.getContentResolver(), Settings.Secure.DOZE_ALWAYS_ON,
                 null);
 
-        assertTrue(mDozeConfig.alwaysOnEnabled(UserHandle.USER_CURRENT));
+        assertFalse(mDozeConfig.alwaysOnEnabled(UserHandle.USER_CURRENT));
     }
 }
