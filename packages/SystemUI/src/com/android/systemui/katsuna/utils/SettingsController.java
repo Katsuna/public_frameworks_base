@@ -14,6 +14,8 @@ import com.android.systemui.statusbar.policy.FlashlightController;
 
 public class SettingsController implements ISettingsController {
 
+    private static final String TAG = SettingsController.class.getSimpleName();
+
     public static final int SINGLE_SIM_DEFAULT_SUB_ID = 1;
 
     private Context mContext;
@@ -46,7 +48,7 @@ public class SettingsController implements ISettingsController {
             output = Settings.System.getInt(mContentResolver, Settings.System.SCREEN_BRIGHTNESS);
         } catch (Settings.SettingNotFoundException e) {
             //Throw an error case it couldn't be retrieved
-            Log.e("Error", "Cannot access system brightness");
+            Log.e(TAG, "Cannot access system brightness");
             e.printStackTrace();
         }
 
@@ -86,7 +88,7 @@ public class SettingsController implements ISettingsController {
         try {
             mWifiManager.setWifiEnabled(enabled);
         } catch (Exception ex) {
-            Log.e("XXX", ex.toString());
+            Log.e(TAG, ex.toString());
         }
     }
 

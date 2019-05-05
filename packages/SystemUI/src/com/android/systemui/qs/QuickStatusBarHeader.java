@@ -305,10 +305,12 @@ public class QuickStatusBarHeader extends RelativeLayout {
     }
 
     public void setExpanded(boolean expanded) {
-        //Log.e(TAG, "setExpanded" + expanded);
+        //Log.e(TAG, "setExpanded: " + expanded);
         if (mExpanded == expanded) return;
         mExpanded = expanded;
         //mHeaderQsPanel.setExpanded(expanded);
+
+        readSettings();
 
         if (expanded) {
             mKatsunaQuickPanel.setVisibility(View.GONE);
@@ -416,7 +418,6 @@ public class QuickStatusBarHeader extends RelativeLayout {
         if (headerExpansionFraction == 0 && mWifiToggle.isShown()) {
             //Log.e(TAG, "setExpansion adjust profile needed");
             adjustProfile();
-            readSettings();
         }
 
         boolean expanded = headerExpansionFraction > EXPAND_INDICATOR_THRESHOLD;
@@ -445,7 +446,6 @@ public class QuickStatusBarHeader extends RelativeLayout {
     public void updateEverything() {
         post(() -> {
             setClickable(false);
-            readSettings();
         });
     }
 
