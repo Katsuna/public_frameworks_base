@@ -550,9 +550,10 @@ public class QSFragment extends Fragment implements QS {
 */
 
         if (expandVisually) {
-            mKatsunaQSPanel.setVisibility(View.VISIBLE);
-            adjustProfiles();
-
+            if (mKatsunaQSPanel.getVisibility() == View.INVISIBLE) {
+                adjustProfiles();
+                mKatsunaQSPanel.setVisibility(View.VISIBLE);
+            }
         } else {
             mKatsunaQSPanel.setVisibility(View.INVISIBLE);
         }
