@@ -1338,7 +1338,10 @@ public class NotificationPanelView extends PanelView implements
 
     protected void updateQsExpansion() {
         if (mQs == null) return;
-        mQs.setQsExpansion(getQsExpansionFraction(), getHeaderTranslation());
+        float qsExpansionFraction = getQsExpansionFraction();
+        float qsExpansionFractionAdjusted = qsExpansionFraction > 0.9 ? 1 : qsExpansionFraction;
+
+        mQs.setQsExpansion(qsExpansionFractionAdjusted, getHeaderTranslation());
     }
 
     private String getKeyguardOrLockScreenString() {
