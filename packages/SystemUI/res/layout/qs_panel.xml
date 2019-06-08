@@ -23,19 +23,11 @@
     android:clipToPadding="false"
     android:clipChildren="false">
 
-    <include android:id="@+id/quick_settings_panel"
-        layout="@layout/katsuna_quick_settings"
+    <include layout="@layout/katsuna_quick_settings"
         android:layout_marginTop="@dimen/status_bar_header_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <include layout="@layout/quick_status_bar_expanded_header" />
-
-    <include layout="@layout/qs_footer_impl" />
-
-    <include android:id="@+id/qs_detail" layout="@layout/qs_detail" />
-
-    <include android:id="@+id/qs_customize" layout="@layout/qs_customize_panel"
-        android:visibility="gone" />
 
 </com.android.systemui.qs.QSContainerImpl>

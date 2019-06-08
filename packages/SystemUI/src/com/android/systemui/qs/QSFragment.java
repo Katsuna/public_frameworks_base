@@ -81,10 +81,8 @@ public class QSFragment extends Fragment implements QS {
     private QSAnimator mQSAnimator;
     private HeightListener mPanelView;
     protected QuickStatusBarHeader mHeader;
-    private QSCustomizer mQSCustomizer;
     //protected QSPanel mQSPanel;
     protected View mKatsunaQSPanel;
-    private QSDetail mQSDetail;
     private boolean mListening;
     private QSContainerImpl mContainer;
     private int mLayoutDirection;
@@ -102,8 +100,7 @@ public class QSFragment extends Fragment implements QS {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //mQSPanel = view.findViewById(R.id.quick_settings_panel);
-        mKatsunaQSPanel = view.findViewById(R.id.quick_settings_panel);
-        mQSDetail = view.findViewById(R.id.qs_detail);
+        mKatsunaQSPanel = view.findViewById(R.id.katsuna_qs_container);
         mHeader = view.findViewById(R.id.header);
         //mFooter = view.findViewById(R.id.qs_footer);
         mContainer = view.findViewById(id.quick_settings_container);
@@ -112,18 +109,9 @@ public class QSFragment extends Fragment implements QS {
 /*        mQSAnimator = new QSAnimator(this,
                 mHeader.findViewById(R.id.quick_qs_panel), mQSPanel);*/
 
-        mQSCustomizer = view.findViewById(R.id.qs_customize);
-        mQSCustomizer.setQs(this);
         if (savedInstanceState != null) {
             setExpanded(savedInstanceState.getBoolean(EXTRA_EXPANDED));
             setListening(savedInstanceState.getBoolean(EXTRA_LISTENING));
-            int[] loc = new int[2];
-            View edit = view.findViewById(android.R.id.edit);
-            edit.getLocationInWindow(loc);
-            int x = loc[0] + edit.getWidth() / 2;
-            int y = loc[1] + edit.getHeight() / 2;
-            mQSCustomizer.setEditLocation(x, y);
-            mQSCustomizer.restoreInstanceState(savedInstanceState);
         }
 
 
@@ -416,7 +404,6 @@ public class QSFragment extends Fragment implements QS {
         super.onSaveInstanceState(outState);
         outState.putBoolean(EXTRA_EXPANDED, mQsExpanded);
         outState.putBoolean(EXTRA_LISTENING, mListening);
-        mQSCustomizer.saveInstanceState(outState);
     }
 
     @VisibleForTesting
@@ -457,21 +444,16 @@ public class QSFragment extends Fragment implements QS {
 
     @Override
     public void setContainer(ViewGroup container) {
-        if (container instanceof NotificationsQuickSettingsContainer) {
-            mQSCustomizer.setContainer((NotificationsQuickSettingsContainer) container);
-        }
+        // no-op
     }
 
     @Override
     public boolean isCustomizing() {
-        return mQSCustomizer.isCustomizing();
+        return false;
     }
 
     public void setHost(QSTileHost qsh) {
-        //mQSPanel.setHost(qsh, mQSCustomizer);
         mHeader.setupHost(qsh);
-        //mFooter.setQSPanel(mQSPanel);
-        mQSDetail.setHost(qsh);
 
         if (mQSAnimator != null) {
             mQSAnimator.setHost(qsh);
@@ -526,7 +508,6 @@ public class QSFragment extends Fragment implements QS {
     private void updateQsState() {
         final boolean expandVisually = mQsExpanded || mStackScrollerOverscrolling
                 || mHeaderAnimating;
-        //mQSPanel.setExpanded(mQsExpanded);
 
         if (mSoundReceiver != null) {
             mSoundReceiver.setListening(mQsExpanded);
@@ -535,19 +516,11 @@ public class QSFragment extends Fragment implements QS {
             readKatsunaControls();
         }
 
-        mQSDetail.setExpanded(mQsExpanded);
         mHeader.setVisibility((mQsExpanded || !mKeyguardShowing || mHeaderAnimating)
                 ? View.VISIBLE
                 : View.INVISIBLE);
         mHeader.setExpanded((mKeyguardShowing && !mHeaderAnimating)
                 || (mQsExpanded && !mStackScrollerOverscrolling));
-/*
-        mFooter.setVisibility((mQsExpanded || !mKeyguardShowing || mHeaderAnimating)
-                ? View.VISIBLE
-                : View.INVISIBLE);
-        mFooter.setExpanded((mKeyguardShowing && !mHeaderAnimating)
-                || (mQsExpanded && !mStackScrollerOverscrolling));
-*/
 
         if (expandVisually) {
             if (mKatsunaQSPanel.getVisibility() == View.INVISIBLE) {
@@ -616,7 +589,7 @@ public class QSFragment extends Fragment implements QS {
     }
 
     public QSCustomizer getCustomizer() {
-        return mQSCustomizer;
+        return null;
     }
 
     @Override
@@ -688,11 +661,10 @@ public class QSFragment extends Fragment implements QS {
                     : headerTranslation);
         }
         mHeader.setExpansion(mKeyguardShowing ? 1 : expansion);
-        //mFooter.setExpansion(mKeyguardShowing ? 1 : expansion);
-        int heightDiff = mKatsunaQSPanel.getBottom() - mHeader.getBottom() + mHeader.getPaddingBottom();
+
+        int heightDiff = mKatsunaQSPanel.getBottom() - mHeader.getBottom();
                 //+ mFooter.getHeight();
         mKatsunaQSPanel.setTranslationY(translationScaleY * heightDiff);
-        mQSDetail.setFullyExpanded(expansion == 1);
 
         if (mQSAnimator != null) {
             mQSAnimator.setPosition(expansion);
@@ -753,9 +725,7 @@ public class QSFragment extends Fragment implements QS {
     public void notifyCustomizeChanged() {
         // The customize state changed, so our height changed.
         mContainer.updateExpansion();
-        //mQSPanel.setVisibility(!mQSCustomizer.isCustomizing() ? View.VISIBLE : View.INVISIBLE);
-        mHeader.setVisibility(!mQSCustomizer.isCustomizing() ? View.VISIBLE : View.INVISIBLE);
-        //mFooter.setVisibility(!mQSCustomizer.isCustomizing() ? View.VISIBLE : View.INVISIBLE);
+        mHeader.setVisibility(View.VISIBLE);
         // Let the panel know the position changed and it needs to update where notifications
         // and whatnot are.
         mPanelView.onQsHeightChanged();
@@ -767,17 +737,7 @@ public class QSFragment extends Fragment implements QS {
      */
     @Override
     public int getDesiredHeight() {
-        if (mQSCustomizer.isCustomizing()) {
-            return getView().getHeight();
-        }
-        if (mQSDetail.isClosingDetail()) {
-            LayoutParams layoutParams = (LayoutParams) mKatsunaQSPanel.getLayoutParams();
-            int panelHeight = layoutParams.topMargin + layoutParams.bottomMargin +
-                    + mKatsunaQSPanel.getMeasuredHeight();
-            return panelHeight + getView().getPaddingBottom();
-        } else {
-            return getView().getMeasuredHeight();
-        }
+        return getView().getMeasuredHeight();
     }
 
     @Override

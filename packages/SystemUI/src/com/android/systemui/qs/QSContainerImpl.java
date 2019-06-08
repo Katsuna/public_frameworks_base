@@ -17,29 +17,21 @@
 package com.android.systemui.qs;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.android.systemui.R;
-import com.android.systemui.qs.customize.QSCustomizer;
 
 /**
  * Wrapper view with background which contains {@link QSPanel} and {@link BaseStatusBarHeader}
  */
 public class QSContainerImpl extends FrameLayout {
 
-    private final Point mSizePoint = new Point();
-
     private int mHeightOverride = -1;
     protected View mQSPanel;
-    private View mQSDetail;
     protected View mHeader;
     protected float mQsExpansion;
-    private QSCustomizer mQSCustomizer;
-    private View mQSFooter;
-    private float mFullElevation;
 
     public QSContainerImpl(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -48,12 +40,8 @@ public class QSContainerImpl extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mQSPanel = findViewById(R.id.quick_settings_panel);
-        mQSDetail = findViewById(R.id.qs_detail);
+        mQSPanel = findViewById(R.id.katsuna_qs_container);
         mHeader = findViewById(R.id.header);
-        mQSCustomizer = findViewById(R.id.qs_customize);
-        mQSFooter = findViewById(R.id.qs_footer);
-        mFullElevation = mQSPanel.getElevation();
 
         setClickable(true);
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -79,12 +67,6 @@ public class QSContainerImpl extends FrameLayout {
                 + mQSPanel.getMeasuredHeight();
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
-
-        // QSCustomizer will always be the height of the screen, but do this after
-        // other measuring to avoid changing the height of the QS.
-        getDisplay().getRealSize(mSizePoint);
-        mQSCustomizer.measure(widthMeasureSpec,
-                MeasureSpec.makeMeasureSpec(mSizePoint.y, MeasureSpec.EXACTLY));
     }
 
     @Override
@@ -107,15 +89,11 @@ public class QSContainerImpl extends FrameLayout {
     public void updateExpansion() {
         int height = calculateContainerHeight();
         setBottom(getTop() + height);
-        mQSDetail.setBottom(getTop() + height);
-        // Pin QS Footer to the bottom of the panel.
-        mQSFooter.setTranslationY(height - mQSFooter.getHeight());
     }
 
     protected int calculateContainerHeight() {
         int heightOverride = mHeightOverride != -1 ? mHeightOverride : getMeasuredHeight();
-        return mQSCustomizer.isCustomizing() ? mQSCustomizer.getHeight()
-                : Math.round(mQsExpansion * (heightOverride - mHeader.getHeight()))
+        return Math.round(mQsExpansion * (heightOverride - mHeader.getHeight()))
                 + mHeader.getHeight();
     }
 
