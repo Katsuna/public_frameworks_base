@@ -136,6 +136,7 @@ public class LockPatternView extends View {
 
     private int mAspect;
     private int mRegularColor;
+    private int mPathColor;
     private int mErrorColor;
     private int mSuccessColor;
 
@@ -344,6 +345,23 @@ public class LockPatternView extends View {
         setAccessibilityDelegate(mExploreByTouchHelper);
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         a.recycle();
+    }
+
+    public void setRegularColor(int regularColor) {
+        mRegularColor = regularColor;
+    }
+
+    public void setPathColor(int pathColor) {
+        mPathColor = pathColor;
+        mPathPaint.setColor(mPathColor);
+    }
+
+    public void setErrorColor(int errorColor) {
+        mErrorColor = errorColor;
+    }
+
+    public void setSuccessColor(int successColor) {
+        mSuccessColor = successColor;
     }
 
     public CellState[][] getCellStates() {
@@ -1131,7 +1149,11 @@ public class LockPatternView extends View {
         final boolean drawPath = !mInStealthMode;
 
         if (drawPath) {
-            mPathPaint.setColor(getCurrentColor(true /* partOfPattern */));
+            if (mPathColor == 0) {
+                mPathPaint.setColor(getCurrentColor(true /* partOfPattern */));
+            } else {
+                mPathPaint.setColor(mPathColor);
+            }
 
             boolean anyCircles = false;
             float lastX = 0f;

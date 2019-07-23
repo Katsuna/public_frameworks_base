@@ -18,6 +18,24 @@
 -->
 
 <resources>
+    <style name="KatsunaKeyguard" />
+
+    <style name="KatsunaKeyguard.TextView">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <style name="KatsunaKeyguard.TextView.Message">
+        <item name="android:textColor">@color/common_white87</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="KatsunaKeyguard.TextView.EmergencyButton" parent="@android:style/DeviceDefault.ButtonBar">
+        <item name="android:textColor">@color/common_white87</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:background">@null</item>
+    </style>
+
     <!-- Keyguard PIN pad styles -->
     <style name="Keyguard.TextView" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:textColor">?attr/wallpaperTextColorSecondary</item>
@@ -58,7 +76,7 @@
     </style>
 
     <style name="BouncerSecurityContainer">
-        <item name="android:layout_gravity">center_horizontal|bottom</item>
+        <item name="android:layout_gravity">center_horizontal|center</item>
     </style>
 
     <style name="PasswordTheme" parent="Theme.SystemUI">

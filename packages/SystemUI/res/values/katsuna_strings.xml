@@ -16,4 +16,7 @@
     <!-- Title for the quick settings flashlight switch -->
     <string name="kts_flash">Torch</string>
 
+    <!-- Title for the lockscreen pattern view -->
+    <string name="kts_drawPasslock">Draw passlock</string>
+
 </resources>

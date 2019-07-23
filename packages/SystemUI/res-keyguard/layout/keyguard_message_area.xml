@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    style="@style/Keyguard.TextView"
+    style="@style/KatsunaKeyguard.TextView.Message"
     android:id="@+id/keyguard_message_area"
     android:singleLine="true"
     android:ellipsize="marquee"

@@ -39,6 +39,10 @@ import com.android.internal.widget.LockPatternView;
 import com.android.settingslib.animation.AppearAnimationCreator;
 import com.android.settingslib.animation.AppearAnimationUtils;
 import com.android.settingslib.animation.DisappearAnimationUtils;
+import com.katsuna.commons.entities.ColorProfileKeyV2;
+import com.katsuna.commons.entities.UserProfile;
+import com.katsuna.commons.utils.ColorCalcV2;
+import com.katsuna.commons.utils.ProfileReader;
 
 import java.util.List;
 
@@ -141,6 +145,36 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
                 ? new LockPatternUtils(mContext) : mLockPatternUtils;
 
         mLockPatternView = findViewById(R.id.lockPatternView);
+
+        try {
+            UserProfile userProfile = ProfileReader.getUserProfileFromKatsunaServices(mContext);
+            int attempt = 1;
+            while (userProfile == null) {
+                Log.d(TAG, "userProfile == null trying to get UserProfile - attempt: " + attempt++);
+                userProfile = ProfileReader.getUserProfileFromKatsunaServices(mContext);
+
+                // wait for 10secs and retry KatsunaServices preference provider not available
+                // immediately after reboot
+                Thread.sleep(10000);
+
+                // try 10 times max
+                if (attempt > 10) break;
+            }
+
+            if (userProfile != null) {
+                int regularColor = ColorCalcV2.getColor(mContext, ColorProfileKeyV2.SECONDARY_COLOR_1,
+                        userProfile.colorProfile);
+                int pathColor = ColorCalcV2.getColor(mContext, ColorProfileKeyV2.PRIMARY_COLOR_1,
+                        userProfile.colorProfile);
+
+                mLockPatternView.setRegularColor(regularColor);
+                mLockPatternView.setPathColor(pathColor);
+            }
+
+        } catch (Exception ex) {
+            Log.e(TAG, "Exception=" + ex.getMessage());
+        }
+
         mLockPatternView.setSaveEnabled(false);
         mLockPatternView.setOnPatternListener(new UnlockPatternListener());
 
@@ -200,7 +234,7 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
     }
 
     private void displayDefaultSecurityMessage() {
-        mSecurityMessageDisplay.setMessage("");
+        mSecurityMessageDisplay.setMessage(R.string.kts_drawPasslock);
     }
 
     @Override

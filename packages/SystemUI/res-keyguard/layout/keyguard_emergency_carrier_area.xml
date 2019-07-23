@@ -44,7 +44,7 @@
         android:layout_weight="1"
         android:layout_marginTop="@dimen/eca_overlap"
         android:text="@*android:string/lockscreen_emergency_call"
-        style="@style/Keyguard.TextView.EmergencyButton"
-        android:textAllCaps="@bool/kg_use_all_caps" />
+        style="@style/KatsunaKeyguard.TextView.EmergencyButton"
+        android:textAllCaps="false" />
 
 </com.android.keyguard.EmergencyCarrierArea>
