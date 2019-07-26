@@ -109,9 +109,9 @@ public class NumPadKey extends ViewGroup {
                 String klondike = sKlondike[mDigit];
                 final int len = klondike.length();
                 if (len > 0) {
-                    mKlondikeText.setText(klondike);
+                    //mKlondikeText.setText(klondike);
                 } else {
-                    mKlondikeText.setVisibility(View.INVISIBLE);
+                    //mKlondikeText.setVisibility(View.INVISIBLE);
                 }
             }
         }
@@ -148,11 +148,13 @@ public class NumPadKey extends ViewGroup {
         int left = centerX - mDigitText.getMeasuredWidth() / 2;
         int bottom = top + digitHeight;
         mDigitText.layout(left, top, left + mDigitText.getMeasuredWidth(), bottom);
+/*
         top = (int) (bottom - klondikeHeight * 0.35f);
         bottom = top + klondikeHeight;
 
         left = centerX - mKlondikeText.getMeasuredWidth() / 2;
         mKlondikeText.layout(left, top, left + mKlondikeText.getMeasuredWidth(), bottom);
+*/
     }
 
     @Override

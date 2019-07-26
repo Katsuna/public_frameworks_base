@@ -19,4 +19,7 @@
     <!-- Title for the lockscreen pattern view -->
     <string name="kts_drawPasslock">Draw passlock</string>
 
+    <!-- Title for the lockscreen pin view -->
+    <string name="kts_enter_pin">Enter pin</string>
+
 </resources>
